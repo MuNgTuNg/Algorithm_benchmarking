@@ -9,48 +9,59 @@
 using namespace std;
 
 // Merge two subarrays L and M into arr
-void merge(std::vector<int>& arr, int p, int q, int r) {  //TODO comb through this
+void merge(std::vector<int>& arr, int left, int mid, int right) {  
   
-  // Create L ← A[p..q] and M ← A[q+1..r]
-  int n1 = q - p + 1;
-  int n2 = r - q;
 
-  int L[n1], M[n2];
+  //split passed array in half
+  
+  int sizeOfFirstArray = mid - left + 1;  
+  int sizeOfSecondArray = right - mid;    
 
-  for (int i = 0; i < n1; i++)
-    L[i] = arr[p + i];
-  for (int j = 0; j < n2; j++)
-    M[j] = arr[q + 1 + j];
+  //create two arrays
+  int firstArray[sizeOfFirstArray], secondArray[sizeOfSecondArray];
+
+
+  
+  //copy both halves of the array into new arrays
+  for (int i = 0; i < sizeOfFirstArray; i++)
+    firstArray[i] = arr[left + i]; 
+
+  for (int j = 0; j < sizeOfSecondArray; j++)
+    secondArray[j] = arr[mid + 1 + j]; 
+
 
   // Maintain current index of sub-arrays and main array
   int i, j, k;
-  i = 0;
-  j = 0;
-  k = p;
+  i = 0; //sub array 1
+  j = 0; //sub array 2
+  k = left; //main array
 
-  // Until we reach either end of either L or M, pick larger among
-  // elements L and M and place them in the correct position at A[p..r]
-  while (i < n1 && j < n2) {
-    if (L[i] <= M[j]) {
-      arr[k] = L[i];
-      i++;
-    } else {
-      arr[k] = M[j];
-      j++;
+  //while our indexes haven't reached the end
+  while (i < sizeOfFirstArray && j < sizeOfSecondArray) {
+
+    
+    //compare for smallest
+    if (firstArray[i] <= secondArray[j]) { 
+      //if first is smaller, assign to indexed spot in passed array
+      arr[k] = firstArray[i];
+      i++;               //increment index
+    }                  
+    else {        //if reaches this control, second is bigger, do same for second        
+      arr[k] = secondArray[j];
+      j++;            
     }
-    k++;
+    k++;                //move on to the next contested spot in the passed in array
   }
 
-  // When we run out of elements in either L or M,
-  // pick up the remaining elements and put in A[p..r]
-  while (i < n1) {
-    arr[k] = L[i];
+  //copy remaining elements, usually one, already sorted
+  while (i < sizeOfFirstArray) {
+    arr[k] = firstArray[i];
     i++;
     k++;
   }
 
-  while (j < n2) {
-    arr[k] = M[j];
+  while (j < sizeOfSecondArray) {
+    arr[k] = secondArray[j];
     j++;
     k++;
   }
@@ -89,8 +100,8 @@ void mergeSort(std::vector<int>& vec){
 
 
 
-//int depth = 0;
-// Divide the array into two subarrays, sort them and merge them
+// int depth = 0;
+// //Divide the array into two subarrays, sort them and merge them
 // void mergeSort(std::vector<int>& arr, int l, int r) {
 //     std::cout <<"----------------------------------\n";
 //     std::cout << "Depth = " << depth << "\n";
