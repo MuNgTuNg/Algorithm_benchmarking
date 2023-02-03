@@ -14,4 +14,5 @@ add_library(src
             sApp.cpp
             sWindow.cpp
             sDebugging.cpp
+            sShader.cpp
             )

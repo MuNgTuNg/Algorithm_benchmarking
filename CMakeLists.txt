@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.13.4)
 
+set(CMAKE_BUILD_TYPE Debug)
 
 project(Algorithms LANGUAGES CXX C ) #Algorithms = ${PROJECT_NAME}
 add_executable(${PROJECT_NAME} test.cpp)

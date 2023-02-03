@@ -4,4 +4,5 @@ add_subdirectory(external)
 
 add_library(sLib INTERFACE
             sApp.hpp
-            sWindow.hpp)
+            sWindow.hpp
+            sShader.hpp)
