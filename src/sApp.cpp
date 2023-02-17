@@ -1,48 +1,55 @@
-#include <chrono>
-#include <unistd.h>
-#include <iostream>
 
 #include <glad.c>
-
-
 #include <sApp.hpp>
-#include <sWindow.hpp>
-#include <sShader.hpp>
-#include <sDebugging.hpp>
+
 
 #include <algorithms/merge_sort.hpp>
 #include <algorithms/binary_search.hpp>
+#include <algorithms/bogo_sort.hpp>
+
+
+/*
+
+ TODO LIST::
+    1. Play with shader toy and see if i can use the screen coords from that to render to a quad
+    2. Figure out instancing to see if i can get that to work 
+    3. Tidy up when appropriate
+*/
+
 
 
 namespace shb{
+
+    
 void sApp::run(){
     
+    //setup window
     sWindow window{1920,1080};
    
+
+    //setup random numbers to be sorted
     srand(time(0));
-    //std::vector<int> vec={50,38,3,99,82,54,18,9,9,50};
     std::vector<int> vec;
-
     int numRandomNumbers = 10;
- 
-    for(int i = 0; i < numRandomNumbers; ++i){
-        vec.push_back(rand());
-    }
-
-
+    generateRand(vec,numRandomNumbers);
+    
+    
+  
     //performance benchmarking
     std::cout << "Merge sort on " << numRandomNumbers << " random numbers:\n";
-    auto startTime = std::chrono::steady_clock::now();       
+    using clock = std::chrono::steady_clock;  
+    auto startTime = clock::now();
 
 
     mergeSort(vec);
-
+    
    
-    auto endTime = std::chrono::steady_clock::now();
+    auto endTime = clock::now();
     auto difference = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
     std::cout<< "Time taken: " << difference << "ms\n";
 
-
+   
+    //print the last 10 numbers
     for(int i = numRandomNumbers -10; i < numRandomNumbers; ++i){
        std::cout<< vec[i] << "\n";
     }
@@ -63,56 +70,28 @@ void sApp::run(){
     glCompileShader(fragShaderHandle);
 
 
-    //checkError(vertShaderHandle); TODO
-    //checkError(fragShaderHandle);
-
-    int  success;
-    char infoLog1[512];
-    glGetShaderiv(vertShaderHandle, GL_COMPILE_STATUS, &success);
-
-    if(!success)
-    {
-        glGetShaderInfoLog(vertShaderHandle, 512, NULL, infoLog1);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog1 << std::endl;
-    }
-
-    int  success2;
-    char infoLog2[512];
-    glGetShaderiv(fragShaderHandle, GL_COMPILE_STATUS, &success2);
-
-    if(!success2)
-    {
-        glGetShaderInfoLog(fragShaderHandle, 512, NULL, infoLog2);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog2 << std::endl;
-    }
+    checkError(vertShaderHandle,SHADER);
+    checkError(fragShaderHandle,SHADER);
 
 
 
-    GLuint shaderProgram = glCreateProgram();
+  //»»» CREATE SHADER PROGRAM «««
+    GLuint squareShaderProgram = glCreateProgram();
     //create shader program
 
     //attach shaders
-    glAttachShader(shaderProgram, vertShaderHandle);
-    glAttachShader(shaderProgram, fragShaderHandle);
+    glAttachShader(squareShaderProgram, vertShaderHandle);
+    glAttachShader(squareShaderProgram, fragShaderHandle);
 
     //link program
-    glLinkProgram(shaderProgram);
+    glLinkProgram(squareShaderProgram);
 
-    //checkError(shaderProgram); //TODO
-
-    GLint successss;
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &successss);
-    
-    if(!successss) {
-        char infoLog[512] ;
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << infoLog;
-    }
+    checkError(squareShaderProgram, SHADER_PROGRAM);
 
 
     //delete shaders
-    glDetachShader(shaderProgram,vertShaderHandle);
-    glDetachShader(shaderProgram,fragShaderHandle);
+    glDetachShader(squareShaderProgram,vertShaderHandle);
+    glDetachShader(squareShaderProgram,fragShaderHandle);
     glDeleteShader(vertShaderHandle);
     glDeleteShader(fragShaderHandle);
 
@@ -166,10 +145,23 @@ void sApp::run(){
     glBindBuffer(GL_ARRAY_BUFFER,0);
     glBindVertexArray(0);
 
-
     checkError(__FILE__,__LINE__);
 
-   //unbind all buffers
+
+
+    /*
+    »»»LOOP VARIABLES«««
+    */
+    float x = 0;
+    float y = 0;
+    float z= 0;
+    
+    float scaleY = 1.f;
+    float scaleX = 1.f;
+
+   /*
+         MAIN LOOP
+   */
     while (!glfwWindowShouldClose(window.handle()))
     { 
    
@@ -177,15 +169,49 @@ void sApp::run(){
     window.update();
 
   //use these to render the square
-    glUseProgram(shaderProgram);
+    glUseProgram(squareShaderProgram);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
     glBindVertexArray(VAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
-    
+
+
+   //initialise matrices for use
+    glm::mat4 model{1.f};
+    glm::mat4 location{1.f};
+    glm::mat4 projection{1.f};
+    glm::mat4 scale{1.f};
+        
+    //modify matrices each frame
+    controls(window,
+             x,
+             y,
+             z,
+             scaleY,
+             scaleX);
+
+    int localModelUniform = glGetUniformLocation(squareShaderProgram,"model");
+    glUniformMatrix4fv(localModelUniform,1,GL_FALSE,glm::value_ptr(model));
+
+    scale = glm::scale( scale,glm::vec3(scaleX, scaleY,1.f));
+    int scaleUniform = glGetUniformLocation(squareShaderProgram,"scale");
+    glUniformMatrix4fv(scaleUniform,1,GL_FALSE,glm::value_ptr(scale));
+
+   
+    location = glm::translate( location,glm::vec3(x, y,-20.f));
+    int localViewUniform = glGetUniformLocation(squareShaderProgram,"location");
+    glUniformMatrix4fv(localViewUniform,1,GL_FALSE,glm::value_ptr(location));
+
+   
+    projection = glm::perspective(glm::radians(90.f), (float)1920/1080,0.1f,100.f);
+    int projUniform = glGetUniformLocation(squareShaderProgram,"projection");
+    glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
+
+
+
 
    //draw currently bound index buffer
     glDrawElements(GL_TRIANGLES, quadIndices.size(), GL_UNSIGNED_INT , 0); //[PRIMITIVE, OFFSET, NUMBER TO DRAW] 
-    
+
     //glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
     
@@ -196,6 +222,8 @@ void sApp::run(){
     glfwPollEvents();           //have any window events happened? 
 
     }
+
+
 
    //delete vertex buffer
    glDeleteBuffers(1,&VBO);

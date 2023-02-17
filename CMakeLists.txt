@@ -30,5 +30,5 @@ target_link_libraries( ${PROJECT_NAME}
                         imgui
                         glfw
                         stb
-                        sLib
+                        
                         )

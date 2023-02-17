@@ -22,4 +22,10 @@ void log(double& msg);
 GLenum checkError(const char *file, int line);
 
 
+//checks shader errors
+enum{
+    SHADER,
+    SHADER_PROGRAM
+};
+void checkError(GLuint shaderName, int type);
 } // namespace shb

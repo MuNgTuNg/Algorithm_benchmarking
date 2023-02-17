@@ -40,6 +40,36 @@ GLenum checkError(const char *file, int line)
     return errorCode;
 }
 
+void checkError(GLuint handle, int type){
+    int  success;
+    
+
+    if(type == SHADER){
+    glGetShaderiv(handle, GL_COMPILE_STATUS, &success);
+    }
+    if(type == SHADER_PROGRAM){
+      glGetProgramiv(handle, GL_LINK_STATUS, &success);
+    }
+
+    if(!success)
+    {
+      if(type == SHADER){
+        char infoLog[512];
+        glGetShaderInfoLog(handle, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
+      }
+
+      if(type == SHADER_PROGRAM){
+        char infoLog[512];
+        glGetProgramInfoLog(handle, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER_PROGRAM::COMPILATION_FAILED\n" << infoLog << std::endl;
+      }
+
+        
+      
+    }
+
+}
 
 
 }//namespace shb

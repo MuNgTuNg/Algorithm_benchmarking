@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <vector>
-using namespace std;
+
 
 // Merge two subarrays L and M into arr
 void merge(std::vector<int>& arr, int left, int mid, int right) {  
@@ -93,7 +93,6 @@ void mergeSort(std::vector<int>& vec, int left, int right){
 void mergeSort(std::vector<int>& vec){
     mergeSort(vec,0,vec.size()-1);
 }
-
 
 
 

@@ -38,7 +38,7 @@ sWindow::sWindow(int h, int w, bool makeCurrent) : m_Height(h), m_Width(w){
     if(makeCurrent){
 
        glfwMakeContextCurrent(m_Handle);
-       //setIcon("../resources/icon2.png");
+       setIcon("../resources/icon2.png");
        //glad is loaded on current context so it must be after window creation and 
        //contextualisation
        gladLoadGL();
