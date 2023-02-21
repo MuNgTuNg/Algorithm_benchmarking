@@ -3,19 +3,12 @@
 in vec3 color;
 in vec3 aPosOut;
 
-out vec4 FragColor;
 
+out vec4 FragColor;
 
 void main()
 {    
-    vec3 newColor = color;
-    if(aPosOut.x < 0.2){
-     newColor = vec3(color.x,color.y,0.4);
-    }
-    if(aPosOut.y < 0.1){
-     newColor = vec3(color.x,0.02,color.z);
-    }
-
-
-    FragColor = vec4(newColor,1.0);
+  
+    // Output to screen
+    FragColor = vec4( color,1.0);
 }
