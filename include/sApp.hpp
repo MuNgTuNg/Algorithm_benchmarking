@@ -40,31 +40,31 @@ class sApp{
 
     
     
-    void controls(sWindow& window, float& x, float& y, float& z, float& scaleY, float& scaleX){
+    void controls(sWindow& window, sQuad& quad){
         if(glfwGetKey(window.handle(),GLFW_KEY_W) == GLFW_PRESS){
-            y += 0.1f;
+            quad.y += 0.1f;
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_S) == GLFW_PRESS){
-            y -= 0.1f; 
+            quad.y -= 0.1f; 
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_A) == GLFW_PRESS){
-            x -= 0.1f; 
+            quad.x -= 0.1f; 
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_D) == GLFW_PRESS){
-            x += 0.1f; 
+            quad.x += 0.1f; 
         }
 
         if(glfwGetKey(window.handle(),GLFW_KEY_UP) == GLFW_PRESS){
-            scaleY += 0.1f; 
+            quad.scaleY += 0.1f; 
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_DOWN) == GLFW_PRESS){
-            scaleY -= 0.1f; 
+            quad.scaleY -= 0.1f; 
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_LEFT) == GLFW_PRESS){
-            scaleX += 0.1f; 
+            quad.scaleX += 0.1f; 
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_RIGHT) == GLFW_PRESS){
-            scaleX -= 0.1f; 
+            quad.scaleX -= 0.1f; 
         }
     }
 

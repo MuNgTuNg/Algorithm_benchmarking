@@ -14,29 +14,24 @@
 namespace shb{
 
 
-
-void generateRand(sQuad& quad, int modulus){
-    quad.value = rand() % modulus;
-}
-    
 void sApp::run()
 {
     
-   std::vector<int> vec;
-   int numRandomNumbers = 10000;
-   generateRand(vec,numRandomNumbers,1000);
-   //vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
+  std::vector<int> vec;
+  int numRandomNumbers = 10000;
+  generateRand(vec,numRandomNumbers,1000);
+  //vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
 
 
-   // algo.setAlgo(new BubbleSort(vec));
-   // algo.run();
+  // algo.setAlgo(new BubbleSort(vec));
+  // algo.run();
 
-   algo.setAlgo(new MergeSort(vec));
-   algo.run();
+  algo.setAlgo(new MergeSort(vec));
+  algo.run();
    
-   int value = 5;
-   algo.setAlgo(new BinarySearch(vec,value));
-   algo.run();
+  int value = 5;
+  algo.setAlgo(new BinarySearch(vec,value));
+  algo.run();
 
 
    
@@ -44,194 +39,127 @@ void sApp::run()
 
 
 
- //»»» CREATE SHADERS «««
-   GLuint vertShaderHandle = glCreateShader(GL_VERTEX_SHADER);
-   GLuint fragShaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
-   std::string vertShaderSource = readFile("../shaders/vertShader.vert");
-   std::string fragShaderSource = readFile("../shaders/fragShader.frag");
-   const char* vertCode = vertShaderSource.c_str();
-   const char* fragCode = fragShaderSource.c_str();
+  //»»» CREATE SHADERS «««
+  GLuint vertShaderHandle = glCreateShader(GL_VERTEX_SHADER);
+  GLuint fragShaderHandle = glCreateShader(GL_FRAGMENT_SHADER);
+  std::string vertShaderSource = readFile("../shaders/vertShader.vert");
+  std::string fragShaderSource = readFile("../shaders/fragShader.frag");
+  const char* vertCode = vertShaderSource.c_str();
+  const char* fragCode = fragShaderSource.c_str();
 
-   glShaderSource(vertShaderHandle, 1, &vertCode,NULL);
-   glShaderSource(fragShaderHandle, 1, &fragCode,NULL);
-   glCompileShader(vertShaderHandle);
-   glCompileShader(fragShaderHandle);
+  glShaderSource(vertShaderHandle, 1, &vertCode,NULL);
+  glShaderSource(fragShaderHandle, 1, &fragCode,NULL);
+  glCompileShader(vertShaderHandle);
+  glCompileShader(fragShaderHandle);
 
-   checkError(vertShaderHandle,SHADER);
-   checkError(fragShaderHandle,SHADER);
+  checkError(vertShaderHandle,SHADER);
+  checkError(fragShaderHandle,SHADER);
 
 
 
   //»»» CREATE SHADER PROGRAM «««
-   GLuint squareShaderProgram = glCreateProgram();
+  GLuint squareShaderProgram = glCreateProgram();
+  
+  //attach shaders
+  glAttachShader(squareShaderProgram, vertShaderHandle);
+  glAttachShader(squareShaderProgram, fragShaderHandle);
+  //link program
+  glLinkProgram(squareShaderProgram);
 
-   //attach shaders
-   glAttachShader(squareShaderProgram, vertShaderHandle);
-   glAttachShader(squareShaderProgram, fragShaderHandle);
-   //link program
-   glLinkProgram(squareShaderProgram);
+  checkError(squareShaderProgram, SHADER_PROGRAM);
 
-   checkError(squareShaderProgram, SHADER_PROGRAM);
+  //delete shaders
+  glDetachShader(squareShaderProgram,vertShaderHandle);
+  glDetachShader(squareShaderProgram,fragShaderHandle);
+  glDeleteShader(vertShaderHandle);
+  glDeleteShader(fragShaderHandle);
 
-   //delete shaders
-   glDetachShader(squareShaderProgram,vertShaderHandle);
-   glDetachShader(squareShaderProgram,fragShaderHandle);
-   glDeleteShader(vertShaderHandle);
-   glDeleteShader(fragShaderHandle);
-
-   checkError(__FILE__,__LINE__);
-
- //»»» CREATE SCENE «««
-   std::vector<sQuad> quadVec(10);
-   float spaceBetweenBars = (1.f) / quadVec.size();
-   
-   for(int i = 0; i < quadVec.size(); ++i){
-      generateRand(quadVec[i],10);
-      quadVec[i].x = i * spaceBetweenBars;
-   }
-   for(int i = 0; i < quadVec.size(); ++i){
-      std::cout << quadVec[i].value << " ";
-   }
+  checkError(__FILE__,__LINE__);
 
 
+  //»»» CREATE SCENE «««
+  //create quads
+  std::vector<sQuad> quads;
+  int quadAmount = 100;
 
-//»»» CREATE BUFFERS «««
-   GLuint VAO;
-   glGenVertexArrays(1, &VAO);
-   glBindVertexArray(VAO);
+  for(int i = 0; i < quadAmount; ++i){
 
-   //create vertex buffer
-   GLuint VBO;
-   glGenBuffers(1,&VBO);
-   GLuint IBO;
-   glGenBuffers(1,&IBO);
+    //create quads
+    sQuad quad{squareShaderProgram};
 
-   glBindBuffer(GL_ARRAY_BUFFER,VBO);
-   glBufferData(GL_ARRAY_BUFFER,quadVec[0].vertices.size()*sizeof(GLfloat), &quadVec[0].vertices[0], GL_STATIC_DRAW);
-
-   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-
-
-
-  //»»»FORMAT ARRAY «««
-   //xyz
-   glVertexAttribPointer(0,3, GL_FLOAT,GL_FALSE, 6* sizeof(float), (void*)0);
-   glEnableVertexAttribArray(0);
-   //rgb
-   glVertexAttribPointer(1,3, GL_FLOAT,GL_FALSE, 6* sizeof(float), (void*)(3*sizeof(float)));
-   glEnableVertexAttribArray(1);
-
-   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
-   glBufferData(GL_ELEMENT_ARRAY_BUFFER,quadVec[0].indices.size()*sizeof(GLuint),&quadVec[0].indices[0],GL_STATIC_DRAW);
-
-   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-   glBindBuffer(GL_ARRAY_BUFFER,0);
-   glBindVertexArray(0);
-
-   checkError(__FILE__,__LINE__);
-
-
-
-   /*
-   »»»LOOP VARIABLES«««
-   */
-   float x = 0;
-   float y = 0;
-   float z= 0;
+    //quad.scaleX = 5.f/quadAmount;
+    //attempt at dividing the screen by the amount of quads beind rendered TODO::
+    float offsetX = (10.f/(float)quadAmount) -5.f;
     
-   float scaleY = 1.f;
-   float scaleX = 1.f;
+    //puts all of the quads at an equal level at the bottom of the screen
+    float offsetY = -5.f;
+    offsetY += (quad.scaleY/2);
+    
+    //sets the quads in place in relation to the offsets calculated
+    //TODO:: calculate proper offsetX
+    quad.setXYZ((i*0.1f)+ offsetX, offsetY ,-300.f);
+    
+    quads.push_back(quad);
+  }
+   
+ 
+  for(int i = 0; i < quads.size(); ++i){
+    std::cout << quads[i].value << " ";
+  }
 
-   /*
+
+
+
+   
+  /*
          MAIN LOOP
-   */
+  */
 
   //for timing main loop
-   using clock = std::chrono::steady_clock; 
-   auto endTime = clock::now();
-   auto startTime = clock::now();
-   float delta = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count();
+  using clock = std::chrono::steady_clock; 
+  auto endTime = clock::now();
+  auto startTime = clock::now();
+  float delta = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count();
 
+  while (!glfwWindowShouldClose(window.handle()))
+  { 
+    startTime = clock::now();
+    delta = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count();
 
-   while (!glfwWindowShouldClose(window.handle()))
-   { 
-     startTime = clock::now();
-     delta = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count();
-
+    
     //update window, keep viewport same size as screen
-     window.update();
+    window.update();
   
     //use these to render the square
-     glUseProgram(squareShaderProgram);
-
-     glBindBuffer(GL_ARRAY_BUFFER,VBO);
-     glBindVertexArray(VAO);
-     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
-  
-  
-     //initialise matrices for use
-     glm::mat4 model{1.f};
-     glm::mat4 location{1.f};
-     glm::mat4 projection{1.f};
-     glm::mat4 scale{1.f};
-          
-     //modify matrices each frame
-     controls(window,
-              x,
-              y,
-              z,
-              scaleY,
-              scaleX);
-
-     
-  
-     int localModelUniform = glGetUniformLocation(squareShaderProgram,"model");
-     glUniformMatrix4fv(localModelUniform,1,GL_FALSE,glm::value_ptr(model));
-  
-     scale = glm::scale( scale,glm::vec3(scaleX, scaleY,1.f));
-     int scaleUniform = glGetUniformLocation(squareShaderProgram,"scale");
-     glUniformMatrix4fv(scaleUniform,1,GL_FALSE,glm::value_ptr(scale));
-  
-     
-     location = glm::translate( location,glm::vec3(x, y,-20.f));
-     int localViewUniform = glGetUniformLocation(squareShaderProgram,"location");
-     glUniformMatrix4fv(localViewUniform,1,GL_FALSE,glm::value_ptr(location));
-  
-     
-     projection = glm::perspective(90.f,(windowW/windowH),0.1f,1000.f);
-     int projUniform = glGetUniformLocation(squareShaderProgram,"projection");
-     glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
-  
-  
-     //draw currently bound index buffer
-     glDrawElements(GL_TRIANGLES, quadVec[0].indices.size(), GL_UNSIGNED_INT , 0); //[PRIMITIVE, OFFSET, NUMBER TO DRAW] 
-  
-     //glBindVertexArray(0);
-     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-      
-  
-     //swap buffers
-     glfwSwapBuffers(window.handle()); 
-     //poll events
-     glfwPollEvents();           //have any window events happened? 
-
-      endTime = clock::now();
-      //std::cout<< "Time taken: " << delta << "ms\n\n";
-   
-
-   }
-
-
-
-   //delete vertex buffer
-   glDeleteBuffers(1,&VBO);
-   //delete index buffer
-   glDeleteBuffers(1,&IBO);
-   //delete vertex array object
-   glDeleteVertexArrays(1,&VAO);
+    glUseProgram(squareShaderProgram);
 
 
     
+    // modify matrices each frame
+    controls(window, quads[0]);
+
+
+
+
+    for( auto quad : quads){
+     quad.update();
+    }
+  
+
+    //swap buffers
+    glfwSwapBuffers(window.handle()); 
+    //poll events
+    glfwPollEvents();           //have any window events happened? 
+
+    endTime = clock::now();
+    //std::cout<< "Time taken: " << delta << "ms\n\n";
+  }
+
+
+   //CLEANUP QUADS
+  for( int i = 0; i< quads.size(); ++i){
+    quads[i].cleanup();
+  }
 }
 
-}
+}//namespace shb

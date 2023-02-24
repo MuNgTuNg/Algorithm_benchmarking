@@ -3,6 +3,7 @@
 #include <sDebugging.hpp>
 namespace shb{
 
+
 sWindow::sWindow(int h, int w, bool makeCurrent) : m_Height(h), m_Width(w){
       // »»» INIT «««
  //initialise glfw

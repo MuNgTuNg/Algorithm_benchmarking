@@ -2,7 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
+#define WINDOW_HEIGHT 1080
+#define WINDOW_WIDTH 1920
 
 /*
     » TODO:: 
