@@ -2,6 +2,7 @@
 
 
 #include <sUtils.hpp>
+#include <shapes/sQuad.hpp>
 
 namespace shb{
 
@@ -32,6 +33,7 @@ void generateRand(std::vector<int>& vec, int amount, int modulus){
         vec.push_back(rand()%modulus);
     }
 }
+
 
 
 //print any vector of anything

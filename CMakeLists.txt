@@ -12,6 +12,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE src)
 
 target_link_directories(${PROJECT_NAME} 
                         PRIVATE include/algorithms
+                        PRIVATE include/shapes
                         PRIVATE include/external
                         PRIVATE src
                         )
@@ -30,5 +31,6 @@ target_link_libraries( ${PROJECT_NAME}
                         imgui
                         glfw
                         stb
+                        shapes
                         
                         )

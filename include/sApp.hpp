@@ -22,6 +22,9 @@
 //algorithms
 #include <algorithms/sAlgo.hpp>
 
+//shapes
+#include <shapes/sQuad.hpp>
+
 
 
 
@@ -67,7 +70,9 @@ class sApp{
 
 
  private:
-    sWindow window{1920,1080};
+    float windowW = 1920;
+    float windowH = 1080;
+    sWindow window{(int)windowW,(int)windowH};
     sAlgorithm algo{};
 };
 }

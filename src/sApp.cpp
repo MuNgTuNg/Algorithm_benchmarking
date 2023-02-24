@@ -13,24 +13,26 @@
 
 namespace shb{
 
+
+
+void generateRand(sQuad& quad, int modulus){
+    quad.value = rand() % modulus;
+}
     
 void sApp::run()
 {
     
    std::vector<int> vec;
    int numRandomNumbers = 10000;
-   //generateRand(vec,numRandomNumbers,1000);
-   vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
+   generateRand(vec,numRandomNumbers,1000);
+   //vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
 
 
    // algo.setAlgo(new BubbleSort(vec));
    // algo.run();
-   // print(vec);
-
 
    algo.setAlgo(new MergeSort(vec));
    algo.run();
-
    
    int value = 5;
    algo.setAlgo(new BinarySearch(vec,value));
@@ -79,21 +81,21 @@ void sApp::run()
 
    checkError(__FILE__,__LINE__);
 
+ //»»» CREATE SCENE «««
+   std::vector<sQuad> quadVec(10);
+   float spaceBetweenBars = (1.f) / quadVec.size();
+   
+   for(int i = 0; i < quadVec.size(); ++i){
+      generateRand(quadVec[i],10);
+      quadVec[i].x = i * spaceBetweenBars;
+   }
+   for(int i = 0; i < quadVec.size(); ++i){
+      std::cout << quadVec[i].value << " ";
+   }
+
+
 
 //»»» CREATE BUFFERS «««
-   std::vector<GLfloat> quadVertices = 
-   { //     COORDINATES     /        COLORS      /   TexCoord  //
-      -.5f,-.5f,0.f, .9f,1.f,2.f,
-      -.5f,.5f,0.f,  0.f,.5f,2.f,
-      .5f,.5f,0.f, 2.f,1.f,.5f,
-      .5f,-.5f,0.f, 2.f,.5f,2.f
-   };
-   std::vector<GLuint> quadIndices = 
-   {
-      0,1,2,
-      0,2,3
-   };
-
    GLuint VAO;
    glGenVertexArrays(1, &VAO);
    glBindVertexArray(VAO);
@@ -105,7 +107,7 @@ void sApp::run()
    glGenBuffers(1,&IBO);
 
    glBindBuffer(GL_ARRAY_BUFFER,VBO);
-   glBufferData(GL_ARRAY_BUFFER,quadVertices.size()*sizeof(GLfloat), &quadVertices[0], GL_STATIC_DRAW);
+   glBufferData(GL_ARRAY_BUFFER,quadVec[0].vertices.size()*sizeof(GLfloat), &quadVec[0].vertices[0], GL_STATIC_DRAW);
 
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
 
@@ -120,7 +122,7 @@ void sApp::run()
    glEnableVertexAttribArray(1);
 
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
-   glBufferData(GL_ELEMENT_ARRAY_BUFFER,quadIndices.size()*sizeof(GLuint),&quadIndices[0],GL_STATIC_DRAW);
+   glBufferData(GL_ELEMENT_ARRAY_BUFFER,quadVec[0].indices.size()*sizeof(GLuint),&quadVec[0].indices[0],GL_STATIC_DRAW);
 
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
    glBindBuffer(GL_ARRAY_BUFFER,0);
@@ -161,6 +163,7 @@ void sApp::run()
   
     //use these to render the square
      glUseProgram(squareShaderProgram);
+
      glBindBuffer(GL_ARRAY_BUFFER,VBO);
      glBindVertexArray(VAO);
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
@@ -195,13 +198,13 @@ void sApp::run()
      glUniformMatrix4fv(localViewUniform,1,GL_FALSE,glm::value_ptr(location));
   
      
-     projection = glm::perspective(glm::radians(90.f), (float)1920/1080,0.1f,100.f);
+     projection = glm::perspective(90.f,(windowW/windowH),0.1f,1000.f);
      int projUniform = glGetUniformLocation(squareShaderProgram,"projection");
      glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
   
   
      //draw currently bound index buffer
-     glDrawElements(GL_TRIANGLES, quadIndices.size(), GL_UNSIGNED_INT , 0); //[PRIMITIVE, OFFSET, NUMBER TO DRAW] 
+     glDrawElements(GL_TRIANGLES, quadVec[0].indices.size(), GL_UNSIGNED_INT , 0); //[PRIMITIVE, OFFSET, NUMBER TO DRAW] 
   
      //glBindVertexArray(0);
      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
