@@ -26,9 +26,9 @@
 namespace shb{
 
 
-class MergeSort : public sAlgorithm{
+class sMergeSort : public sAlgorithm{
  public:
-  MergeSort(std::vector<int>& vecIn) : vec(vecIn), sAlgorithm("Merge Sort"){}
+  sMergeSort(std::vector<int>& vecIn) : vec(vecIn), sAlgorithm("Merge Sort"){}
 
  private:
   void runAlgo() override{

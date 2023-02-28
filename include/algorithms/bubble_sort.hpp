@@ -21,9 +21,9 @@
 namespace shb{
 
 template<typename T>
-class BubbleSort : public sAlgorithm{
+class sBubbleSort : public sAlgorithm{
    public:
-    BubbleSort(std::vector<T>& vecIn) : sAlgorithm("Bubble Sort"), vec(vecIn) {}
+    sBubbleSort(std::vector<T>& vecIn) : sAlgorithm("Bubble Sort"), vec(vecIn) {}
     
    private:
     void runAlgo() override{

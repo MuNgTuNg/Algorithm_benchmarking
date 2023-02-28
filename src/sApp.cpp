@@ -7,8 +7,11 @@
     1. Play with shader toy and see if i can use the screen coords from that to render to a quad
     2. Figure out instancing to see if i can get that to work 
     3. Tidy up when appropriate
+    
 */
 
+
+#include <algorithms/sGraph.hpp>
 
 
 namespace shb{
@@ -16,28 +19,58 @@ namespace shb{
 
 void sApp::run()
 {
+
+  if(graph){
+
+  
+  sGraph graph;
+
+  graph.addvertex("London");
+  graph.addvertex("Manchester");
+  graph.addvertex("Liverpool");
+  graph.addvertex("China");
+  graph.addvertex("Brazil");
+  
+  graph.addedge("London","Liverpool",20);
+  graph.addedge("Manchester","Liverpool",30);
+  graph.addedge("Liverpool","Manchester",30);
+  graph.addedge("Liverpool","London",50);
+  graph.addedge("London","Brazil",50);
+  graph.addedge("Brazil","London",50);
+  graph.addedge("London","China",770);
+  graph.addedge("China","London",770);
+   
+  graph.dfs("China");
+
+  // std::cout << "Route: " << graph.vertices["London"]->name
+  // << " to " <<graph.vertices["London"]->edges[0].destination->name
+  // << " to " <<graph.vertices["London"]->edges[1].destination->name << "\n";
+  // std::cout <<  "Cost: " << graph.vertices["London"]->edges[0].cost + graph.vertices["London"]->edges[1].cost << "\n" ;
+
+  } //if graph
+ 
+  if(algorithms){
     
-  std::vector<int> vec;
-  int numRandomNumbers = 10000;
-  generateRand(vec,numRandomNumbers,1000);
-  //vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
+    std::vector<int> vec;
+    int numRandomNumbers = 10000;
+    generateRand(vec,numRandomNumbers,1000);
+    //vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
 
 
-  // algo.setAlgo(new BubbleSort(vec));
-  // algo.run();
+    //algo.setAlgo(new sBubbleSort(vec));
+    //algo.run();
 
-  algo.setAlgo(new MergeSort(vec));
-  algo.run();
-   
-  int value = 5;
-  algo.setAlgo(new BinarySearch(vec,value));
-  algo.run();
+    algo.setAlgo(new sMergeSort(vec));
+    algo.run();
+    
+    int value = 5;
+    algo.setAlgo(new sBinarySearch(vec,value));
+    algo.run();
 
-
-   
-   
+  } //if algorithms
 
 
+  if(graphics){
 
   //»»» CREATE SHADERS «««
   GLuint vertShaderHandle = glCreateShader(GL_VERTEX_SHADER);
@@ -160,6 +193,8 @@ void sApp::run()
   for( int i = 0; i< quads.size(); ++i){
     quads[i].cleanup();
   }
+
+  } //if graphics
 }
 
 }//namespace shb

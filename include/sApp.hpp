@@ -74,5 +74,10 @@ class sApp{
     float windowH = 1080;
     sWindow window{(int)windowW,(int)windowH};
     sAlgorithm algo{};
+
+public:
+    bool graphics = false;
+    bool algorithms = false;
+    bool graph = false;
 };
 }

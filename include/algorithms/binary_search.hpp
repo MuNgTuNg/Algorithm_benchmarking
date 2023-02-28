@@ -30,11 +30,11 @@ Binary search is a divide and conquer algorithm, designed to optimise the search
 
 
 template<typename T >
-class BinarySearch : public sAlgorithm{
+class sBinarySearch : public sAlgorithm{
    public:
     
     //takes params for search in constructor
-    BinarySearch(std::vector<T> vecIn, T targetIn) : sAlgorithm("binarySearch"), vec(vecIn),target(targetIn) {}
+    sBinarySearch(std::vector<T> vecIn, T targetIn) : sAlgorithm("binarySearch"), vec(vecIn),target(targetIn) {}
     
    private:
 

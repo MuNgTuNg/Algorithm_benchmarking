@@ -3,9 +3,9 @@
 #include <algorithms/sAlgo.hpp>
 
 template<typename T>
-class InsertionSort : public sAlgorithm{
+class sInsertionSort : public sAlgorithm{
     public:
-     InsertionSort(std::vector<T>& vecIn) : vec(vecIn), sAlgorithm("Insertion Sort"){}
+     sInsertionSort(std::vector<T>& vecIn) : vec(vecIn), sAlgorithm("Insertion Sort"){}
     
     private:
      void runAlgo() override{

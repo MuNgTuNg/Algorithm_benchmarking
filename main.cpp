@@ -1,7 +1,25 @@
 #include <sApp.hpp>
 
-int main(){
+
+void parseCLI(int argc, char *argv[], shb::sApp& app){
+    for(int i = 0; i < argc; ++i){
+        if(strcmp("algorithms",argv[i]) == 0){
+            app.algorithms = true;
+        }
+        if(strcmp("graphics",argv[i]) == 0){
+            app.graphics = true;
+        }
+        if(strcmp("graph",argv[i]) == 0){
+            app.graph = true;
+        }
+    }
+}
+
+int main(int argc, char *argv[]){
+    
     shb::sApp app;
+   
+    parseCLI(argc,argv, app);
 
     app.run();
 
