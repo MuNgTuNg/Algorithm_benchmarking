@@ -52,20 +52,21 @@ void sApp::run()
   if(algorithms){
     
     std::vector<int> vec;
-    int numRandomNumbers = 10000;
+    int numRandomNumbers = 20;
     generateRand(vec,numRandomNumbers,1000);
-    //vec = {12,3,23,214,23,43,534,5,54,3634,34,63452,52};
-
-
+    //vec = {7,6,-1,4,3,-7,1};
     //algo.setAlgo(new sBubbleSort(vec));
     //algo.run();
 
-    algo.setAlgo(new sMergeSort(vec));
+    algo.setAlgo(new sBogoSort(vec));
     algo.run();
+
+    // algo.setAlgo(new sMergeSort(vec));
+    // algo.run();
     
-    int value = 5;
-    algo.setAlgo(new sBinarySearch(vec,value));
-    algo.run();
+    // int value = 5;
+    // algo.setAlgo(new sBinarySearch(vec,value));
+    // algo.run();
 
   } //if algorithms
 
@@ -91,19 +92,19 @@ void sApp::run()
 
 
   //»»» CREATE SHADER PROGRAM «««
-  GLuint squareShaderProgram = glCreateProgram();
+  GLuint quadShaderProgram = glCreateProgram();
   
   //attach shaders
-  glAttachShader(squareShaderProgram, vertShaderHandle);
-  glAttachShader(squareShaderProgram, fragShaderHandle);
+  glAttachShader(quadShaderProgram, vertShaderHandle);
+  glAttachShader(quadShaderProgram, fragShaderHandle);
   //link program
-  glLinkProgram(squareShaderProgram);
+  glLinkProgram(quadShaderProgram);
 
-  checkError(squareShaderProgram, SHADER_PROGRAM);
+  checkError(quadShaderProgram, SHADER_PROGRAM);
 
   //delete shaders
-  glDetachShader(squareShaderProgram,vertShaderHandle);
-  glDetachShader(squareShaderProgram,fragShaderHandle);
+  glDetachShader(quadShaderProgram,vertShaderHandle);
+  glDetachShader(quadShaderProgram,fragShaderHandle);
   glDeleteShader(vertShaderHandle);
   glDeleteShader(fragShaderHandle);
 
@@ -118,7 +119,7 @@ void sApp::run()
   for(int i = 0; i < quadAmount; ++i){
 
     //create quads
-    sQuad quad{squareShaderProgram};
+    sQuad quad{quadShaderProgram};
 
     //quad.scaleX = 5.f/quadAmount;
     //attempt at dividing the screen by the amount of quads beind rendered TODO::
@@ -164,7 +165,7 @@ void sApp::run()
     window.update();
   
     //use these to render the square
-    glUseProgram(squareShaderProgram);
+    glUseProgram(quadShaderProgram);
 
 
     
@@ -176,6 +177,7 @@ void sApp::run()
 
     for( auto quad : quads){
      quad.update();
+     quad.draw();
     }
   
 

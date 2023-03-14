@@ -98,4 +98,5 @@ class Foo : public sAlgorithm{
 #include <algorithms/binary_search.hpp>
 #include <algorithms/bubble_sort.hpp>
 #include <algorithms/merge_sort.hpp>
-//#include <algorithms/bogo_sort.hpp>
+#include <algorithms/kadanes_algorithm.hpp>
+#include <algorithms/bogo_sort.hpp>

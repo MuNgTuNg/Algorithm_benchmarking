@@ -10,6 +10,8 @@ add_library(algorithms INTERFACE
             bubble_sort.hpp
             insertion_sort.hpp
             merge_sort.hpp
+            kadanes_algorithm.hpp
+            bogo_sort.hpp
             sAlgo.hpp
             
             )

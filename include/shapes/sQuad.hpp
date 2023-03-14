@@ -36,7 +36,18 @@ class sQuad{
       0,2,3
     };
 
-    
+    void draw(){
+      glBindVertexArray(VAO);
+     glBindBuffer(GL_ARRAY_BUFFER,VBO);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
+
+     //draw currently bound index buffer
+     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT , 0); //[PRIMITIVE, OFFSET, NUMBER TO DRAW] 
+  
+     glBindVertexArray(0);
+     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 
     void update(){
         //initialise matrices for use
@@ -66,16 +77,7 @@ class sQuad{
     //  int projUniform = glGetUniformLocation(shaderProgram,"projection");
     //  glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
   
-     glBindVertexArray(VAO);
-     glBindBuffer(GL_ARRAY_BUFFER,VBO);
-     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
-
-     //draw currently bound index buffer
-     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT , 0); //[PRIMITIVE, OFFSET, NUMBER TO DRAW] 
-  
-     glBindVertexArray(0);
-     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-     glBindBuffer(GL_ARRAY_BUFFER, 0);
+     
 
     }
 
