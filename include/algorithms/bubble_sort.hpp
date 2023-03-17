@@ -37,12 +37,12 @@ class sBubbleSort : public sAlgorithm{
             return;
         }
       
-      for(int j = 0; j < vec.size(); j++){    //iterate through array
-        for(int i = 0; i <vec.size()-j; i++){ //for every element in the array, iterate through it again after the current index in the first iteration
-            if(vec[i + 1] < vec[i]){          //if the next value is smaller then the previous, swap it
+      for(int j = 0; j < vec.size()-1; j++){    //iterate through array
+        for(int i = j; i <vec.size(); i++){ //for every element in the array, iterate through it again after the current index in the first iteration
+            if(vec[i] < vec[j]){          //if the next value is smaller then the previous, swap it
                 T temp = vec[i];
-                vec[i] = vec[i + 1];
-                vec[i+1] = temp;
+                vec[i] = vec[j];
+                vec[j] = temp;
             }
             
         }

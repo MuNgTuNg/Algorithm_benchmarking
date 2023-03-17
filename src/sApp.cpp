@@ -58,8 +58,8 @@ void sApp::run()
     //algo.setAlgo(new sBubbleSort(vec));
     //algo.run();
 
-    algo.setAlgo(new sBogoSort(vec));
-    algo.run();
+    // algo.setAlgo(new sBogoSort(vec));
+    // algo.run();
 
     // algo.setAlgo(new sMergeSort(vec));
     // algo.run();
@@ -123,7 +123,8 @@ void sApp::run()
 
     //quad.scaleX = 5.f/quadAmount;
     //attempt at dividing the screen by the amount of quads beind rendered TODO::
-    float offsetX = (10.f/(float)quadAmount) -5.f;
+    quad.scaleX = 10.f/quadAmount;
+    float offsetX = ((10.f/(float)quadAmount)*i) -5.f;
     
     //puts all of the quads at an equal level at the bottom of the screen
     float offsetY = -5.f;
@@ -131,16 +132,14 @@ void sApp::run()
     
     //sets the quads in place in relation to the offsets calculated
     //TODO:: calculate proper offsetX
-    quad.setXYZ((i*0.1f)+ offsetX, offsetY ,-300.f);
+    quad.setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
     
     quads.push_back(quad);
   }
-   
- 
-  for(int i = 0; i < quads.size(); ++i){
-    std::cout << quads[i].value << " ";
-  }
 
+
+  algo.setAlgo(new sBubbleSort(quads));
+  
 
 
 
@@ -172,6 +171,21 @@ void sApp::run()
     // modify matrices each frame
     controls(window, quads[0]);
 
+    if(glfwGetKey(window.handle(),GLFW_KEY_R) == GLFW_PRESS){
+      algo.run();
+   
+      for(int i = 0; i < quads.size(); ++i){
+        float offsetX = ((10.f/(float)quadAmount)*(i*0.1)) -5.f;
+
+        //puts all of the quads at an equal level at the bottom of the screen
+        float offsetY = -5.f;
+        offsetY += (quads[i].scaleY/2);
+
+        quads[i].setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
+
+        std::cout << quads[i].value << " ";
+      }
+    }
 
 
 

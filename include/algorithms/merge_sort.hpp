@@ -25,21 +25,21 @@
 
 namespace shb{
 
-
+template <typename T>
 class sMergeSort : public sAlgorithm{
  public:
-  sMergeSort(std::vector<int>& vecIn) : vec(vecIn), sAlgorithm("Merge Sort"){}
+  sMergeSort(std::vector<T>& vecIn) : vec(vecIn), sAlgorithm("Merge Sort"){}
 
  private:
   void runAlgo() override{
     mergeSort(vec,0,vec.size()-1);
   }
 
-  std::vector<int>& vec;
+  std::vector<T>& vec;
 
 
   //implementation from memory
-  void mergeSort(std::vector<int>& vec, int left, int right){
+  void mergeSort(std::vector<T>& vec, int left, int right){
 
     //if left and right are the same, we've hit a leaf and we should leave the function
     if(left< right){
@@ -59,14 +59,14 @@ class sMergeSort : public sAlgorithm{
 
 
   // Merge two subarrays L and M into arr
-  void merge(std::vector<int>& arr, int left, int mid, int right) {
+  void merge(std::vector<T>& arr, int left, int mid, int right) {
     //split passed array in half
   
     int sizeOfFirstArray = mid - left + 1;
     int sizeOfSecondArray = right - mid;
   
     //create two arrays
-    int firstArray[sizeOfFirstArray], secondArray[sizeOfSecondArray];
+    T firstArray[sizeOfFirstArray], secondArray[sizeOfSecondArray];
   
   
     //copy both halves of the array into new arrays

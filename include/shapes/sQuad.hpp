@@ -51,7 +51,7 @@ class sQuad{
 
     void update(){
         //initialise matrices for use
-          
+      
      glm::mat4 model{1.f};
      int modelUniform = glGetUniformLocation(shaderProgram,"model");
      glUniformMatrix4fv(modelUniform,1,GL_FALSE,glm::value_ptr(model));
@@ -62,7 +62,7 @@ class sQuad{
      glUniformMatrix4fv(scaleUniform,1,GL_FALSE,glm::value_ptr(scale));
   
      glm::mat4 view{1.f};
-     view = glm::translate( view,glm::vec3(x, y,-10.f));
+     view = glm::translate( view,glm::vec3(x, y,z));
      int viewUniform = glGetUniformLocation(shaderProgram,"location");
      glUniformMatrix4fv(viewUniform,1,GL_FALSE,glm::value_ptr(view));
      
@@ -152,7 +152,7 @@ class sQuad{
         // }
     }
 
-    float x = 0.f, y = 0.f, z = -400.f;
+    float x = 0.f, y = 0.f, z = 0.f;
     int value = 0;
     int modulus = 10;
     
@@ -169,8 +169,14 @@ class sQuad{
     float scaleX = 0.1f; //member
 
     GLuint shaderProgram;
-};
 
+    friend bool operator<(const sQuad& lhs,const sQuad& rhs){
+      return lhs.value < rhs.value;
+    }
+
+    
+
+};
 
 
 
