@@ -12,6 +12,9 @@ void parseCLI(int argc, char *argv[], shb::sApp& app){
         if(strcmp("graph",argv[i]) == 0){
             app.graph = true;
         }
+        if(strcmp("list",argv[i]) == 0){
+            app.list = true;
+        }
     }
 }
 

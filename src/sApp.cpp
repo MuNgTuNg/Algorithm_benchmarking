@@ -11,14 +11,24 @@
 */
 
 
-#include <algorithms/sGraph.hpp>
-
-
 namespace shb{
 
 
 void sApp::run()
 {
+  if(list){
+  sNode* head = new sNode();
+  head->value = 1;
+  head->next = NULL;
+
+  addListNodeEnd(head,2);
+  addListNodeEnd(head,3);
+  addListNodeEnd(head,4);
+ 
+  //swapNodes(&head, &head->next->next); //TODO swapping and sorting
+  printList(head);
+  }//enmd of list code
+
 
   if(graph){
 
@@ -202,6 +212,10 @@ void sApp::run()
 
     endTime = clock::now();
     //std::cout<< "Time taken: " << delta << "ms\n\n";
+
+    if(glfwGetKey(window.handle(),GLFW_KEY_Q) == GLFW_PRESS){
+      break;
+    }
   }
 
 

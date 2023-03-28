@@ -34,3 +34,8 @@ target_link_libraries( ${PROJECT_NAME}
                         shapes
                         
                         )
+
+                        target_link_libraries( ${PROJECT_NAME}
+                        src
+                        algorithms
+                        )
