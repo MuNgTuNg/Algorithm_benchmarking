@@ -51,6 +51,8 @@ class sAlgorithm{
     }
     sAlgorithm(){}
 
+    
+
   protected: 
 
     //override this function with the algorithms implementation
@@ -69,7 +71,11 @@ class sAlgorithm{
     int64_t timeTaken = 0;
     std::string algoName = "No name";
     sAlgorithm* algo = nullptr;
+
+
 };
+
+
 
 
 }//namespace shb

@@ -6,6 +6,9 @@ PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 add_library(algorithms
+            sAlgo.hpp
+            
+            
             graph/sGraph.hpp#
             graph/sGraph.cpp
             linked_lists/linked_list.hpp
@@ -16,6 +19,5 @@ add_library(algorithms
             sorting/merge_sort.hpp
             sliding_window/kadanes_algorithm.hpp
             sorting/bogo_sort.hpp
-            sAlgo.hpp
             
             )

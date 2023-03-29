@@ -9,14 +9,52 @@ void printList(sNode* head){
     std::cout << std::endl;
 }
 
-void swapNodes(sNode** left, sNode** right){ //TODO:: swap nodes
-    sNode* currL = (*left);
-    sNode* currR = (*right);
-    sNode* prevL = nullptr;
-    sNode* prevR = nullptr;
+void swapNodes(sNode*& head,int left, int right){ 
 
-   // while()
+    sNode* nodeL = head;
+    sNode* prevNodeL = NULL;
+
+    sNode* nodeR = head; 
+    sNode* prevNodeR = NULL;
+
+    if(!head) { return; }
+    if(right == left) { return; }
+
+    while(nodeL && left != 0){
+        prevNodeL = nodeL;
+        nodeL = nodeL->next;
+        --left;
+    }
+
+    while(nodeR && right != 0){
+        prevNodeR = nodeR;
+        nodeR = nodeR->next;
+        --right;
+    }
+
+    if(nodeR && nodeL){
+        if(prevNodeL){
+            prevNodeL->next = nodeR;
+        }else{
+            head = nodeR;
+        }
+        if(prevNodeR){
+            prevNodeR->next = nodeL;
+        }else{
+            head = nodeL;
+        }
+
+        sNode* temp = nodeR->next;
+        nodeR->next = nodeL->next;
+        nodeL->next = temp;
+    }
+
+  
 }
+
+
+  
+
 
 sNode* addListNodeBegin(sNode** head, int value){
     if(!head){
@@ -82,5 +120,57 @@ sNode* addListNodeAt(sNode* head, int Rindex, int value){
 
 }
 
+void bubbleSortLinkedList(sNode*& head){
+
+    sNode* left = head;
+    sNode* right = head;
+
+    int leftIndex = 0;
+    int rightIndex = 0;
+    
+    //while left hasn't hit the end
+    while(left){
+        //search list for value higher than left
+        rightIndex = 0;
+
+        while(right->value < left->value){
+            right = right->next;
+            rightIndex++;
+        }
+
+        //swap values
+        swapNodes(head,leftIndex,rightIndex);
+
+        leftIndex = rightIndex;
+       
+        for(int i = 0; i <= leftIndex; ++i){
+            left = left->next;
+        }
+
+        leftIndex++;
+    }
+
+
+    
+    //if right pointer is larger than left pointer
+    //swap right with left
+    //left equals right
+}
+
+
+void listDriverProgram(){
+  sNode* head = new sNode();
+  head->value = 9;
+  head->next = NULL;
+
+  addListNodeEnd(head,32);
+  addListNodeEnd(head,300);
+  addListNodeEnd(head,6876);
+  addListNodeEnd(head,6234);
+  addListNodeEnd(head,622224);
+  bubbleSortLinkedList(head);
+  //swapNodes(head,0,2); //TODO sorting
+  printList(head);
+}
 
 }//namespace shb

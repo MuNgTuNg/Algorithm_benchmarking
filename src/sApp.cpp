@@ -14,71 +14,35 @@
 namespace shb{
 
 
+
+
 void sApp::run()
 {
   if(list){
-  sNode* head = new sNode();
-  head->value = 1;
-  head->next = NULL;
-
-  addListNodeEnd(head,2);
-  addListNodeEnd(head,3);
-  addListNodeEnd(head,4);
- 
-  //swapNodes(&head, &head->next->next); //TODO swapping and sorting
-  printList(head);
+    listDriverProgram();
   }//enmd of list code
 
 
   if(graph){
-
-  
-  sGraph graph;
-
-  graph.addvertex("London");
-  graph.addvertex("Manchester");
-  graph.addvertex("Liverpool");
-  graph.addvertex("China");
-  graph.addvertex("Brazil");
-  
-  graph.addedge("London","Liverpool",20);
-  graph.addedge("Manchester","Liverpool",30);
-  graph.addedge("Liverpool","Manchester",30);
-  graph.addedge("Liverpool","London",50);
-  graph.addedge("London","Brazil",50);
-  graph.addedge("Brazil","London",50);
-  graph.addedge("London","China",770);
-  graph.addedge("China","London",770);
-   
-  graph.dfs("China");
-
-  // std::cout << "Route: " << graph.vertices["London"]->name
-  // << " to " <<graph.vertices["London"]->edges[0].destination->name
-  // << " to " <<graph.vertices["London"]->edges[1].destination->name << "\n";
-  // std::cout <<  "Cost: " << graph.vertices["London"]->edges[0].cost + graph.vertices["London"]->edges[1].cost << "\n" ;
-
-  } //if graph
+    graphDriverProgram();
+  } 
  
   if(algorithms){
-    
+    sAlgorithm algo{};
     std::vector<int> vec;
     int numRandomNumbers = 20;
     generateRand(vec,numRandomNumbers,1000);
     //vec = {7,6,-1,4,3,-7,1};
-    //algo.setAlgo(new sBubbleSort(vec));
+    algo.setAlgo(new sBubbleSort(vec));
     //algo.run();
-
     // algo.setAlgo(new sBogoSort(vec));
     // algo.run();
-
     // algo.setAlgo(new sMergeSort(vec));
     // algo.run();
-    
     // int value = 5;
     // algo.setAlgo(new sBinarySearch(vec,value));
     // algo.run();
-
-  } //if algorithms
+  } 
 
 
   if(graphics){

@@ -30,9 +30,8 @@ struct sGraphVertex {
     sGraphVertex(std::string s) : name(s) {}
 };
 
-class sGraph
+struct sGraph
 {
-public:
     //map of strings and vertices
     typedef std::map<std::string, sGraphVertex *> vmap;
     vmap vertices;
@@ -41,8 +40,10 @@ public:
     void addedge(const std::string& from, const std::string& to, double cost);
     ~sGraph();
     void dfs(const std::string str);
+
 };
 
+void graphDriverProgram();
 
 
 
