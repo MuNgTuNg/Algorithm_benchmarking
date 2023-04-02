@@ -52,7 +52,46 @@ void swapNodes(sNode*& head,int left, int right){
   
 }
 
+void swapNodes(sNode*& head,sNode*& left, sNode*& right){ 
 
+    sNode* nodeL = head;
+    sNode* prevNodeL = NULL;
+
+    sNode* nodeR = head; 
+    sNode* prevNodeR = NULL;
+
+    if(!head) { return; }
+    if(right == left) { return; }
+
+    while(nodeL && nodeL != left){
+        prevNodeL = nodeL;
+        nodeL = nodeL->next;
+    }
+
+    while(nodeR && nodeR != right){
+        prevNodeR = nodeR;
+        nodeR = nodeR->next;
+    }
+
+    if(nodeR && nodeL){
+        if(prevNodeL){
+            prevNodeL->next = nodeR;
+        }else{
+            head = nodeR;
+        }
+        if(prevNodeR){
+            prevNodeR->next = nodeL;
+        }else{
+            head = nodeL;
+        }
+
+        sNode* temp = nodeR->next;
+        nodeR->next = nodeL->next;
+        nodeL->next = temp;
+    }
+
+  
+}
   
 
 
@@ -120,35 +159,110 @@ sNode* addListNodeAt(sNode* head, int Rindex, int value){
 
 }
 
-void bubbleSortLinkedList(sNode*& head){
+sNode* getMid(sNode*& head){
+    sNode* slow = head;
+    sNode* fast = head->next;
 
-    sNode* left = head;
-    sNode* right = head;
+    while(fast && fast->next){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
 
-    int leftIndex = 0;
-    int rightIndex = 0;
-    
-    //while left hasn't hit the end
-    while(left){
-        //search list for value higher than left
-        rightIndex = 0;
+}
+sNode* merge(sNode*& left,sNode*& right){
+    sNode* tail = new sNode();
+    sNode* dummy = tail;
 
-        while(right->value < left->value){
-            right = right->next;
-            rightIndex++;
-        }
-
-        //swap values
-        swapNodes(head,leftIndex,rightIndex);
-
-        leftIndex = rightIndex;
-       
-        for(int i = 0; i <= leftIndex; ++i){
+    while(left && right){
+        if(left->value < right->value){
+            tail->next = left;
             left = left->next;
         }
-
-        leftIndex++;
+        else{
+            tail->next = right;
+            right = right->next;
+        }
+        tail = tail->next;
     }
+
+    if(left){
+        tail->next = left;
+    }
+    if(right){
+        tail->next = right;
+    }
+
+    return dummy;
+}
+
+sNode* mergeSortLinkedList(sNode*& head){
+    if(!head || !head->next){
+        return head;
+    }
+    
+    sNode* left = head;
+    sNode* right = getMid(head);
+
+    sNode* temp = right->next;
+    right->next = NULL;
+    right = temp;
+
+    left = mergeSortLinkedList(left);
+    right = mergeSortLinkedList(right);
+
+    return merge(left,right);
+
+}
+
+void bubbleSortLinkedList(sNode*& head){
+
+    sNode* end;
+    sNode* right;
+    sNode* left;
+    sNode* prevRight;
+    sNode* temp;
+    
+    //head next isnt null, increment it by assigning it to the right pointr
+    for(end = NULL; end != head->next; end = right){
+        
+        //initialise prevRight and right to the head
+        //while rights next pointer isnt null
+        //prevRight becomes right and right gets incremented
+        for(prevRight = right = head; right->next != end; prevRight = right, right = right->next){
+
+            //left is the next one on from right
+            left = right->next;
+            
+            //if the values need to be swapped
+            if(right->value > left->value){
+                std::cout << "swapped: " << right->value << " and " << left->value << "\n";
+
+                //right takes left's next pointer
+                right->next = left->next;
+                //left next becomes right
+                left->next = right;
+
+                //check for head
+                if(right!=head){
+                    prevRight->next = left;
+                }
+                else{
+                    head = left;
+                }
+                //swap nodes 
+                temp = right;
+                right = left; 
+                left = temp;
+                //swapNodes(head,left,right);
+            }
+        }
+        
+    }
+
+     
+        
+    
 
 
     
@@ -160,17 +274,18 @@ void bubbleSortLinkedList(sNode*& head){
 
 void listDriverProgram(){
   sNode* head = new sNode();
-  head->value = 9;
+  head->value = 4;
   head->next = NULL;
 
-  addListNodeEnd(head,32);
-  addListNodeEnd(head,300);
-  addListNodeEnd(head,6876);
-  addListNodeEnd(head,6234);
-  addListNodeEnd(head,622224);
-  bubbleSortLinkedList(head);
-  //swapNodes(head,0,2); //TODO sorting
+  addListNodeEnd(head,3);
+  addListNodeEnd(head,2);
+  addListNodeEnd(head,1);
+  addListNodeEnd(head,6);
+  addListNodeEnd(head,5);
+  mergeSortLinkedList(head);
+  //swapNodes(head,head->next->next,head->next); //TODO sorting
   printList(head);
 }
+
 
 }//namespace shb

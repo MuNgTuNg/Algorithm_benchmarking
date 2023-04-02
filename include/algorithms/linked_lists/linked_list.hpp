@@ -16,5 +16,10 @@ void swapNodes(sNode*&,int, int);
 void swapNodes(sNode*& head,sNode*& left, sNode*& right);
 void bubbleSortLinkedList(sNode*& head);
 
+//merge sort
+sNode* getMid(sNode*& head);
+sNode* merge(sNode*& left, sNode*& right);
+sNode* mergeSortLinkedList(sNode*& head);
+
 void listDriverProgram();
 }//namespace shb
