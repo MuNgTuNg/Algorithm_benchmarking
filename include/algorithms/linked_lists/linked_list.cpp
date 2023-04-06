@@ -2,11 +2,16 @@
 namespace shb{
 
 void printList(sNode* head){
-    while(head!=nullptr){
-        std::cout << head->value << " ";
+   std::cout << "Head <- ";
+ 
+    while(head != NULL)
+    {
+        std::cout << head->value << " <-- ";
         head = head->next;
     }
-    std::cout << std::endl;
+    std::cout << "Tail" << std::endl;
+ 
+    return;
 }
 
 void swapNodes(sNode*& head,int left, int right){ 
@@ -97,7 +102,7 @@ void swapNodes(sNode*& head,sNode*& left, sNode*& right){
 
 sNode* addListNodeBegin(sNode** head, int value){
     if(!head){
-        return new sNode{value,nullptr};
+        return new sNode{value,NULL};
     }
     
     //create new node, where head is the next pointer
@@ -159,61 +164,65 @@ sNode* addListNodeAt(sNode* head, int Rindex, int value){
 
 }
 
-sNode* getMid(sNode*& head){
-    sNode* slow = head;
+sNode* getMid(sNode* head){
     sNode* fast = head->next;
+    sNode* slow = head;
 
-    while(fast && fast->next){
-        slow = slow->next;
-        fast = fast->next->next;
+    while(fast && fast->next){ 
+      
+            fast = fast->next->next;
+            slow = slow->next;
+        
     }
     return slow;
 
 }
-sNode* merge(sNode*& left,sNode*& right){
-    sNode* tail = new sNode();
-    sNode* dummy = tail;
+sNode* merge(sNode* h1,sNode* h2){
+    sNode* dummy = NULL;
 
-    while(left && right){
-        if(left->value < right->value){
-            tail->next = left;
-            left = left->next;
+    if(h1 == NULL){
+        return (h2);
+    }
+    else if(h2 == NULL){
+        return (h1);
+    }
+
+        if(h1->value <= h2->value){
+            dummy = h1;
+            dummy->next = merge(h1->next,h2);
         }
         else{
-            tail->next = right;
-            right = right->next;
+            dummy = h2;
+            dummy->next = merge(h1, h2->next);
         }
-        tail = tail->next;
-    }
+        
+    
+    return (dummy);
 
-    if(left){
-        tail->next = left;
-    }
-    if(right){
-        tail->next = right;
-    }
-
-    return dummy;
+    
 }
+ 
+void mergeSortLinkedList(sNode** headRef){
+    sNode* head = *headRef;
+    sNode* left, *right, *mid;
+    
 
-sNode* mergeSortLinkedList(sNode*& head){
-    if(!head || !head->next){
+    if(!head  || !head->next){
         return head;
     }
-    
-    sNode* left = head;
-    sNode* right = getMid(head);
+    mid = getMid(head);
 
-    sNode* temp = right->next;
-    right->next = NULL;
-    right = temp;
+    left = head;
+    right = mid->next;
+    mid->next = NULL;
 
-    left = mergeSortLinkedList(left);
-    right = mergeSortLinkedList(right);
+    mergeSortLinkedList(&left);
+    mergeSortLinkedList(&right);
 
-    return merge(left,right);
-
+    *headRef = merge(left,right);
 }
+
+
 
 void bubbleSortLinkedList(sNode*& head){
 
@@ -274,6 +283,7 @@ void bubbleSortLinkedList(sNode*& head){
 
 void listDriverProgram(){
   sNode* head = new sNode();
+  sNode* dummyHead  = head;
   head->value = 4;
   head->next = NULL;
 
@@ -282,7 +292,10 @@ void listDriverProgram(){
   addListNodeEnd(head,1);
   addListNodeEnd(head,6);
   addListNodeEnd(head,5);
-  mergeSortLinkedList(head);
+
+  printList(head);
+
+  mergeSortLinkedList(&head);
   //swapNodes(head,head->next->next,head->next); //TODO sorting
   printList(head);
 }
