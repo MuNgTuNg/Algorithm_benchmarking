@@ -32,14 +32,11 @@ void sApp::run()
     std::vector<int> vec;
     int numRandomNumbers = 20;
     generateRand(vec,numRandomNumbers,1000);
-    //vec = {7,6,-1,4,3,-7,1};
-    algo.setAlgo(new sBubbleSort(vec));
-    //algo.run();
+    
+    algo.setAlgo(new sQuickSort(vec));
+    algo.run();
     // algo.setAlgo(new sBogoSort(vec));
     // algo.run();
-    // algo.setAlgo(new sMergeSort(vec));
-    // algo.run();
-    // int value = 5;
     // algo.setAlgo(new sBinarySearch(vec,value));
     // algo.run();
   } 

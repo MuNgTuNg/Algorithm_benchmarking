@@ -16,6 +16,7 @@ add_library(algorithms
             searching/binary_search.hpp
             sorting/bubble_sort.hpp
             sorting/insertion_sort.hpp
+            sorting/quick_sort.hpp
             sorting/merge_sort.hpp
             sliding_window/kadanes_algorithm.hpp
             sorting/bogo_sort.hpp
