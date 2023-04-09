@@ -106,6 +106,7 @@ class Foo : public sAlgorithm{
 #include <algorithms/sorting/merge_sort.hpp>
 #include <algorithms/sliding_window/kadanes_algorithm.hpp>
 #include <algorithms/sorting/bogo_sort.hpp>
+#include <algorithms/sorting/quick_sort.hpp>
 #include <algorithms/graph/sGraph.hpp>
 #include <algorithms/linked_lists/linked_list.hpp>
 

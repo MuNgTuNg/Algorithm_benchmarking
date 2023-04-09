@@ -33,8 +33,13 @@ void sApp::run()
     int numRandomNumbers = 20;
     generateRand(vec,numRandomNumbers,1000);
     
-    algo.setAlgo(new sQuickSort(vec));
+    algo.setAlgo(new sQuickSort<int>(vec));
     algo.run();
+
+    for(int i = 0; i < vec.size(); ++i){
+      std::cout << vec[i] << " ";
+    }
+    std::cout << "\n";
     // algo.setAlgo(new sBogoSort(vec));
     // algo.run();
     // algo.setAlgo(new sBinarySearch(vec,value));
