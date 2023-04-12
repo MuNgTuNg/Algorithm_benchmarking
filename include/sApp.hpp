@@ -80,5 +80,6 @@ public:
     bool algorithms = false;
     bool graph = false;
     bool list = false;
+    bool tree = false;
 };
 }

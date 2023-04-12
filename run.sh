@@ -1,2 +1,2 @@
 #!/bin/bash
-cd build ; ./Algorithms algorithms #list #graphics 
+cd build ; ./Algorithms tree #algorithms #list #graphics 

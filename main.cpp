@@ -15,6 +15,9 @@ void parseCLI(int argc, char *argv[], shb::sApp& app){
         if(strcmp("list",argv[i]) == 0){
             app.list = true;
         }
+        if(strcmp("tree",argv[i]) == 0){
+            app.tree = true;
+        }
     }
 }
 

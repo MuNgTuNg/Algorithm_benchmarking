@@ -109,4 +109,5 @@ class Foo : public sAlgorithm{
 #include <algorithms/sorting/quick_sort.hpp>
 #include <algorithms/graph/sGraph.hpp>
 #include <algorithms/linked_lists/linked_list.hpp>
+#include <algorithms/binary_tree/binary_tree.hpp>
 

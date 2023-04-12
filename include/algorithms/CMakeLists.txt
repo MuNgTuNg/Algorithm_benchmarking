@@ -20,5 +20,7 @@ add_library(algorithms
             sorting/merge_sort.hpp
             sliding_window/kadanes_algorithm.hpp
             sorting/bogo_sort.hpp
+            binary_tree/binary_tree.hpp
+            binary_tree/binary_tree.cpp
             
             )

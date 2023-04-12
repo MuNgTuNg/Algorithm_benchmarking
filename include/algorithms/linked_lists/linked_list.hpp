@@ -3,32 +3,32 @@
 #include <stack>
 namespace shb{
 
-struct sNode
+struct sNodeLL
 {
 
 	int value;
-	sNode *next;
+	sNodeLL *next;
 };
-void printList(sNode*);
-sNode* addListNodeBegin(sNode**, int);
-sNode* addListNodeAt(sNode*, int, int);
-sNode* addListNodeEnd(sNode* , int);
-void swapNodes(sNode*&,int, int);
-void swapNodes(sNode*& head,sNode*& left, sNode*& right);
-sNode* getLast(sNode* head);
-sNode* getMid(sNode* head);
+void printList(sNodeLL*);
+sNodeLL* addListNodeBegin(sNodeLL**, int);
+sNodeLL* addListNodeAt(sNodeLL*, int, int);
+sNodeLL* addListNodeEnd(sNodeLL* , int);
+void swapNodes(sNodeLL*&,int, int);
+void swapNodes(sNodeLL*& head,sNodeLL*& left, sNodeLL*& right);
+sNodeLL* getLast(sNodeLL* head);
+sNodeLL* getMid(sNodeLL* head);
 
 //sorting
-void bubbleSortLinkedList(sNode*& head);
+void bubbleSortLinkedList(sNodeLL*& head);
 
-void quickSortLinkedList(sNode*head);
-void quickSortLinkedList(sNode* first, sNode* last);
-sNode* partiion(sNode* first, sNode* last);
+void quickSortLinkedList(sNodeLL*head);
+void quickSortLinkedList(sNodeLL* first, sNodeLL* last);
+sNodeLL* partiion(sNodeLL* first, sNodeLL* last);
 
-sNode* merge(sNode* left, sNode* right);
-void mergeSortLinkedList(sNode** head);
+sNodeLL* merge(sNodeLL* left, sNodeLL* right);
+void mergeSortLinkedList(sNodeLL** head);
 
-void reverseLinkedList(sNode*& head);
+void reverseLinkedList(sNodeLL*& head);
 
 
 void listDriverProgram();

@@ -18,11 +18,12 @@ namespace shb{
 
 void sApp::run()
 {
+  if(tree){
+    binaryTreeDriverProgram();
+  }
   if(list){
     listDriverProgram();
-  }//enmd of list code
-
-
+  }
   if(graph){
     graphDriverProgram();
   } 

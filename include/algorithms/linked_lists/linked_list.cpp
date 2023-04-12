@@ -3,7 +3,7 @@ namespace shb{
 
     //TODO:     quick sort linked list
 
-void printList(sNode* head){
+void printList(sNodeLL* head){
    std::cout << "Head <- ";
  
     while(head != NULL)
@@ -16,8 +16,8 @@ void printList(sNode* head){
     return;
 }
 
-sNode* getLast(sNode* head){
-    sNode* prev = head;
+sNodeLL* getLast(sNodeLL* head){
+    sNodeLL* prev = head;
     while(head){
         prev = head;
         head = head->next;
@@ -26,13 +26,13 @@ sNode* getLast(sNode* head){
 }
 
 
-void swapNodes(sNode*& head,sNode*& left, sNode*& right){ 
+void swapNodes(sNodeLL*& head,sNodeLL*& left, sNodeLL*& right){ 
 
-    sNode* nodeL = head;
-    sNode* prevNodeL = NULL;
+    sNodeLL* nodeL = head;
+    sNodeLL* prevNodeL = NULL;
 
-    sNode* nodeR = head; 
-    sNode* prevNodeR = NULL;
+    sNodeLL* nodeR = head; 
+    sNodeLL* prevNodeR = NULL;
 
     if(!head) { return; }
     if(right == left) { return; }
@@ -59,7 +59,7 @@ void swapNodes(sNode*& head,sNode*& left, sNode*& right){
             head = nodeL;
         }
 
-        sNode* temp = nodeR->next;
+        sNodeLL* temp = nodeR->next;
         nodeR->next = nodeL->next;
         nodeL->next = temp;
     }
@@ -68,10 +68,10 @@ void swapNodes(sNode*& head,sNode*& left, sNode*& right){
 }
  
 
-sNode* partition(sNode* first, sNode* last){
+sNodeLL* partition(sNodeLL* first, sNodeLL* last){
     // pivot is first node, front is also first node
-    sNode* pivot = first;
-    sNode* front = first;
+    sNodeLL* pivot = first;
+    sNodeLL* front = first;
     int temp = 0;
 
     //while we still have nodes to process
@@ -101,14 +101,14 @@ sNode* partition(sNode* first, sNode* last){
     
 }
 
-void quickSortLinkedList(sNode* first, sNode* last){
+void quickSortLinkedList(sNodeLL* first, sNodeLL* last){
     //base case
     if(first == last){
         return;
     }
     
     //get the pivot value
-    sNode* pivot = partition(first, last);
+    sNodeLL* pivot = partition(first, last);
     
     //recursively partition and sort list until the last value
     if(pivot != NULL && pivot->next != NULL){
@@ -121,18 +121,18 @@ void quickSortLinkedList(sNode* first, sNode* last){
 }
 
 //swap values not pointers //TODO
-void quickSortLinkedList(sNode*head){
+void quickSortLinkedList(sNodeLL*head){
     //send the algorithm the first and last nodes
     quickSortLinkedList(head,getLast(head));
 }
 
-void reverseLinkedList(sNode*& head){
+void reverseLinkedList(sNodeLL*& head){
 
     if(!head){
         return;
     }
 
-    std::stack<sNode*> stc;
+    std::stack<sNodeLL*> stc;
     
     //push all nodes to stack
     while(head){
@@ -141,7 +141,7 @@ void reverseLinkedList(sNode*& head){
     }
     
     //create traversal pointer
-    sNode* curr = stc.top();
+    sNodeLL* curr = stc.top();
     head = curr;
     
     //while there are still nodes in the stack, assign them to 
@@ -156,13 +156,13 @@ void reverseLinkedList(sNode*& head){
     curr->next = NULL;
 }
 
-void swapNodes(sNode*& head,int left, int right){ 
+void swapNodes(sNodeLL*& head,int left, int right){ 
 
-    sNode* nodeL = head;
-    sNode* prevNodeL = NULL;
+    sNodeLL* nodeL = head;
+    sNodeLL* prevNodeL = NULL;
 
-    sNode* nodeR = head; 
-    sNode* prevNodeR = NULL;
+    sNodeLL* nodeR = head; 
+    sNodeLL* prevNodeR = NULL;
 
     if(!head) { return; }
     if(right == left) { return; }
@@ -191,7 +191,7 @@ void swapNodes(sNode*& head,int left, int right){
             head = nodeL;
         }
 
-        sNode* temp = nodeR->next;
+        sNodeLL* temp = nodeR->next;
         nodeR->next = nodeL->next;
         nodeL->next = temp;
     }
@@ -201,29 +201,29 @@ void swapNodes(sNode*& head,int left, int right){
  
 
 
-sNode* addListNodeBegin(sNode** head, int value){
+sNodeLL* addListNodeBegin(sNodeLL** head, int value){
     if(!head){
-        return new sNode{value,NULL};
+        return new sNodeLL{value,NULL};
     }
     
     //create new node, where head is the next pointer
-    sNode* newNode = new sNode{value,*head};
+    sNodeLL* newNode = new sNodeLL{value,*head};
     //replace head with new node
     *head = newNode;
     //return new node
     return newNode;
 }
 
-sNode* addListNodeEnd(sNode* head, int value){
+sNodeLL* addListNodeEnd(sNodeLL* head, int value){
     while(head->next){
         head = head->next;
     }
-    sNode* newNode = new sNode{value, nullptr};
+    sNodeLL* newNode = new sNodeLL{value, nullptr};
     head->next = newNode;
     return newNode;
 }
 
-sNode* addListNodeAt(sNode* head, int Rindex, int value){
+sNodeLL* addListNodeAt(sNodeLL* head, int Rindex, int value){
     
     //deal with negative values by just taking the absolute value
     Rindex = abs(Rindex);
@@ -233,12 +233,12 @@ sNode* addListNodeAt(sNode* head, int Rindex, int value){
         return addListNodeBegin(&head,value);
     }
     //create new node
-    sNode* newNode = new sNode();
+    sNodeLL* newNode = new sNodeLL();
     newNode->value = value;
     newNode->next = nullptr;
 
-    sNode* curr = head;
-    sNode* prev = curr;
+    sNodeLL* curr = head;
+    sNodeLL* prev = curr;
 
     if(!curr){
         return newNode;
@@ -265,9 +265,9 @@ sNode* addListNodeAt(sNode* head, int Rindex, int value){
 
 }
 
-sNode* getMid(sNode* head){
-    sNode* fast = head->next;
-    sNode* slow = head;
+sNodeLL* getMid(sNodeLL* head){
+    sNodeLL* fast = head->next;
+    sNodeLL* slow = head;
 
     while(fast && fast->next){ 
       
@@ -278,10 +278,10 @@ sNode* getMid(sNode* head){
     return slow;
 
 }
-sNode* merge(sNode* h1,sNode* h2){
+sNodeLL* merge(sNodeLL* h1,sNodeLL* h2){
 
     //create current node
-    sNode* current = NULL;
+    sNodeLL* current = NULL;
     
     //if either are null, return other 
     if(h1 == NULL){
@@ -309,13 +309,13 @@ sNode* merge(sNode* h1,sNode* h2){
     
 }
  
-void mergeSortLinkedList(sNode** headRef){
+void mergeSortLinkedList(sNodeLL** headRef){
 
     //pointer makes head easier to refer to
-    sNode* head = *headRef;
+    sNodeLL* head = *headRef;
 
     //left right and mid pointer
-    sNode* left, *right, *mid;
+    sNodeLL* left, *right, *mid;
     
     //if passed in null, or next is null 
     //base case
@@ -340,13 +340,13 @@ void mergeSortLinkedList(sNode** headRef){
 
 
 
-void bubbleSortLinkedList(sNode*& head){
+void bubbleSortLinkedList(sNodeLL*& head){
 
-    sNode* end;
-    sNode* right;
-    sNode* left;
-    sNode* prevRight;
-    sNode* temp;
+    sNodeLL* end;
+    sNodeLL* right;
+    sNodeLL* left;
+    sNodeLL* prevRight;
+    sNodeLL* temp;
     
     //head next isnt null, increment it by assigning it to the right pointr
     for(end = NULL; end != head->next; end = right){
@@ -398,8 +398,8 @@ void bubbleSortLinkedList(sNode*& head){
 
 
 void listDriverProgram(){
-  sNode* head = new sNode();
-  sNode* currentHead  = head;
+  sNodeLL* head = new sNodeLL();
+  sNodeLL* currentHead  = head;
   head->value = 4;
   head->next = NULL;
 
