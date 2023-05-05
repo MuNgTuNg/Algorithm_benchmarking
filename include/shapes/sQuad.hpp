@@ -87,7 +87,8 @@ class sQuad{
     enum{
         QUAD_RED,
         QUAD_GREEN,
-        QUAD_BLUE
+        QUAD_BLUE,
+        QUAD_PINK
     };
 
     void changeQuadColor(int colorEnum){
@@ -101,8 +102,11 @@ class sQuad{
             case QUAD_BLUE:
                 color = glm::vec3{0,0,255};
                 break;
+            case QUAD_PINK:
+                color = glm::vec3{255,0,255};
+                break;
             default:
-                color = glm::vec3{255,255,255};
+                color = glm::vec3{0,255,255};
         }
     }
    

@@ -158,8 +158,8 @@ void sApp::run()
 
 
     for( auto quad : quads){
-     quad.update();
      placeQuads();
+     quad.update();
      quad.draw();
     }
   

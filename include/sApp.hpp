@@ -42,7 +42,8 @@ class sApp{
     enum{
         QUAD_RED,
         QUAD_GREEN,
-        QUAD_BLUE
+        QUAD_BLUE,
+        QUAD_PINK
     };
 
     
@@ -51,8 +52,10 @@ class sApp{
 
 
         if(glfwGetKey(window.handle(),GLFW_KEY_R) == GLFW_PRESS){
-            // sortThread = std::thread(sApp::MTquickSort,0,quads.size()-1,std::ref(quads));
-            // sortThread.detach();
+            sortThread = std::thread(sApp::MTquickSort,0,quads.size()-1,std::ref(quads));
+            sortThread.detach();
+        }
+        if(glfwGetKey(window.handle(),GLFW_KEY_Y) == GLFW_PRESS){
             std::thread sortThread(MTbubbleSort, std::ref(quads));
             sortThread.detach();
 
@@ -60,9 +63,7 @@ class sApp{
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_T) == GLFW_PRESS){ //TODO reset
 
-            for( int i = 0; i< quads.size(); ++i){
-              quads[i].cleanup();
-            }
+            
             for(int i = 0; i < quadAmount; ++i){
 
                //create quads
@@ -81,7 +82,7 @@ class sApp{
                //TODO:: calculate proper offsetX
                quad.setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
                
-               quads.push_back(quad);
+               quads[i] = quad;
             }
 
           placeQuads();
@@ -98,7 +99,7 @@ class sApp{
     void placeQuads(){
      
         for(int i = 0; i < quads.size(); ++i){
-              float offsetX = ((10.f/(float)quadAmount)*(i*0.1)) -5.f;
+              float offsetX = ((10.f/(float)quadAmount)*(i*0.1)) -5.5f;
       
               //puts all of the quads at an equal level at the bottom of the screen
               float offsetY = -5.f;
@@ -144,7 +145,7 @@ public:
         
         *r = *l; 
         *l = temp;
-        usleep(100000);
+        
     }
 
     
@@ -153,21 +154,30 @@ public:
         
         //choose start element as pivot
         sQuad pivot = vec[start];
+        vec[start].changeQuadColor(QUAD_PINK);
+        usleep(10000);
  
         //get pivot's sorted position
         int count = 0;
         for(int i = start+1; i <= end; ++i){
+            vec[i].changeQuadColor(QUAD_GREEN);
+            usleep(10000);
             if(vec[i] <= pivot){
+                
                 count++;
             }
+            vec[i].changeQuadColor(QUAD_RED);
+            
         }
         
         //assign index variable based on pivot's positon
         int pivotIndex = start+ count;
         
         //swap pivot element into it's sorted position
+        vec[start].changeQuadColor(QUAD_BLUE);
         swap(&vec[pivotIndex], &vec[start]);
-        vec[pivotIndex].changeQuadColor(QUAD_BLUE);
+        
+        
      
         //pointers to start of segment of array and end
         int i = start;
@@ -214,7 +224,7 @@ public:
         //recursively call quicksort on either side of pivot element until array is sorted
         MTquickSort(start, pivot-1,vec);
         MTquickSort(pivot+1, end,vec);
-        sleep(1);
+        
     }
 
 
@@ -242,10 +252,10 @@ public:
                   
             }
           }
-          for(int i = 0; i < vec.size()-2; ++i){
+          for(int i = 0; i < vec.size(); ++i){
             vec[i].changeQuadColor(QUAD_BLUE);
             usleep(10000);
-            if(vec[i+1] < vec[i]){
+            if(vec[i] < vec[i-1]){
               break;
             }
             sorted = true;
