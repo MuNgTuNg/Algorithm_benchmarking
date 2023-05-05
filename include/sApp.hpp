@@ -248,7 +248,7 @@ public:
                 vec[i].changeQuadColor(QUAD_RED);
               }
               
-              usleep(100);
+              usleep(1000);
                   
             }
           }
