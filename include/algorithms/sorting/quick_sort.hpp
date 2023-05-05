@@ -76,6 +76,7 @@ class sQuickSort : public sAlgorithm{
         //recursively call quicksort on either side of pivot element until array is sorted
         quickSort(start, pivot-1);
         quickSort(pivot+1, end);
+        
     }
 
     std::vector<T>&  vec;

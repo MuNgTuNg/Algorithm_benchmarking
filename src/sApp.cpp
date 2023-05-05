@@ -1,6 +1,7 @@
 
 #include <glad.c>
 #include <sApp.hpp>
+
 /*
 
  TODO LIST::
@@ -12,6 +13,8 @@
 
 
 namespace shb{
+
+
 
 
 
@@ -32,8 +35,10 @@ void sApp::run()
     sAlgorithm algo{};
     std::vector<int> vec;
     int numRandomNumbers = 20;
-    generateRand(vec,numRandomNumbers,1000);
-    
+    int modulus = 1000;
+    for(int i = 0; i < numRandomNumbers; ++i){
+        vec.push_back(rand()%modulus);
+    }
     algo.setAlgo(new sQuickSort<int>(vec));
     algo.run();
 
@@ -69,7 +74,7 @@ void sApp::run()
 
 
   //»»» CREATE SHADER PROGRAM «««
-  GLuint quadShaderProgram = glCreateProgram();
+  quadShaderProgram = glCreateProgram();
   
   //attach shaders
   glAttachShader(quadShaderProgram, vertShaderHandle);
@@ -90,18 +95,16 @@ void sApp::run()
 
   //»»» CREATE SCENE «««
   //create quads
-  std::vector<sQuad> quads;
-  int quadAmount = 100;
-
+  
   for(int i = 0; i < quadAmount; ++i){
 
     //create quads
     sQuad quad{quadShaderProgram};
 
     //quad.scaleX = 5.f/quadAmount;
-    //attempt at dividing the screen by the amount of quads beind rendered TODO::
+    //attempt at dividing the screen by the amount of quads being rendered TODO::
     quad.scaleX = 10.f/quadAmount;
-    float offsetX = ((10.f/(float)quadAmount)*i) -5.f;
+    float offsetX = ((0.1f/(float)quadAmount)*i) -5.f;
     
     //puts all of the quads at an equal level at the bottom of the screen
     float offsetY = -5.f;
@@ -115,7 +118,7 @@ void sApp::run()
   }
 
 
-  algo.setAlgo(new sBubbleSort(quads));
+  
   
 
 
@@ -130,6 +133,8 @@ void sApp::run()
   auto endTime = clock::now();
   auto startTime = clock::now();
   float delta = std::chrono::duration_cast<std::chrono::seconds>(endTime - startTime).count();
+
+  
 
   while (!glfwWindowShouldClose(window.handle()))
   { 
@@ -148,21 +153,7 @@ void sApp::run()
     // modify matrices each frame
     controls(window, quads[0]);
 
-    if(glfwGetKey(window.handle(),GLFW_KEY_R) == GLFW_PRESS){
-      algo.run();
    
-      for(int i = 0; i < quads.size(); ++i){
-        float offsetX = ((10.f/(float)quadAmount)*(i*0.1)) -5.f;
-
-        //puts all of the quads at an equal level at the bottom of the screen
-        float offsetY = -5.f;
-        offsetY += (quads[i].scaleY/2);
-
-        quads[i].setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
-
-        std::cout << quads[i].value << " ";
-      }
-    }
 
 
 
@@ -184,7 +175,8 @@ void sApp::run()
       break;
     }
   }
-
+   
+   
 
    //CLEANUP QUADS
   for( int i = 0; i< quads.size(); ++i){

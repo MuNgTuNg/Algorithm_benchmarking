@@ -28,7 +28,7 @@ std::string readFile(const char *filePath) {
 
 
 //generate an amount of random numbers into a vector, and chose the range of numbers
-void generateRand(std::vector<int>& vec, int amount, int modulus){
+void generateRandNumbers(std::vector<int>& vec, int amount, int modulus){
     for(int i = 0; i < amount; ++i){
         vec.push_back(rand()%modulus);
     }

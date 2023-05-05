@@ -76,12 +76,35 @@ class sQuad{
     //  projection = glm::ortho(0.f,1920.f,1080.f,0.f);
     //  int projUniform = glGetUniformLocation(shaderProgram,"projection");
     //  glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
-  
+
+     int colUniform = glGetUniformLocation(shaderProgram,"colorIN");
+     glUniform3fv(colUniform,1,glm::value_ptr(color)); 
+     
      
 
     }
 
-    
+    enum{
+        QUAD_RED,
+        QUAD_GREEN,
+        QUAD_BLUE
+    };
+
+    void changeQuadColor(int colorEnum){
+        switch(colorEnum){
+            case QUAD_RED:
+                color = glm::vec3{255,0,0};
+                break;
+            case QUAD_GREEN:
+                color = glm::vec3{0,255,0};
+                break;
+            case QUAD_BLUE:
+                color = glm::vec3{0,0,255};
+                break;
+            default:
+                color = glm::vec3{255,255,255};
+        }
+    }
    
 
     sQuad(GLuint shaderProg, float xI = 0, float yI = 0, float zI = 0) : x(xI), y(yI), z(zI), shaderProgram(shaderProg){
@@ -163,6 +186,9 @@ class sQuad{
     GLuint VAO;
     int quadVertSize = vertices.size();
 
+    glm::vec3 color{255,0,0};
+     
+
     
 
     float scaleY = 1.f; //member
@@ -172,6 +198,12 @@ class sQuad{
 
     friend bool operator<(const sQuad& lhs,const sQuad& rhs){
       return lhs.value < rhs.value;
+    }
+    friend bool operator>(const sQuad& lhs,const sQuad& rhs){
+      return lhs.value > rhs.value;
+    }
+    friend bool operator<=(const sQuad& lhs,const sQuad& rhs){
+      return lhs.value <= rhs.value;
     }
 
     

@@ -10,6 +10,8 @@ uniform mat4 scale;
 
 uniform float iTime;
 
+uniform vec3 colorIN;
+
 
 out vec3 color;
 out vec3 aPosOut;
@@ -22,5 +24,5 @@ void main(){
     time = iTime;
     
     gl_Position = model * projection * location * scale * vec4(aPos.x,aPos.y,aPos.z,1.0);
-    color = aColor;
+    color = colorIN;
 }
