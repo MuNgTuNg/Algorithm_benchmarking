@@ -8,7 +8,8 @@ PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
 add_library(algorithms
             sAlgo.hpp
             
-            
+            #dynamic_programming/knapsack.hpp
+            #dynamic_programming/knapsack.cpp
             sorting/quick_sort.hpp
             graph/sGraph.hpp#
             graph/sGraph.cpp

@@ -199,6 +199,9 @@ class sQuad{
     friend bool operator<(const sQuad& lhs,const sQuad& rhs){
       return lhs.value < rhs.value;
     }
+    sQuad(const sQuad& rhs){
+      *this = rhs;
+    }
     friend bool operator>(const sQuad& lhs,const sQuad& rhs){
       return lhs.value > rhs.value;
     }

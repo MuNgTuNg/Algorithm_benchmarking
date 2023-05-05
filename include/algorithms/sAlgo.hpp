@@ -110,4 +110,5 @@ class Foo : public sAlgorithm{
 #include <algorithms/graph/sGraph.hpp>
 #include <algorithms/linked_lists/linked_list.hpp>
 #include <algorithms/binary_tree/binary_tree.hpp>
+//#include <dynamic_programming/knapsack.hpp>
 

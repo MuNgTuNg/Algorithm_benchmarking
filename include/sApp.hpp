@@ -51,13 +51,12 @@ class sApp{
 
 
         if(glfwGetKey(window.handle(),GLFW_KEY_R) == GLFW_PRESS){
-            //sortThread = std::thread(sApp::MTquickSort,0,quads.size()-1,std::ref(quads));
-            //sortThread.detach();
-            //MTquickSort(0, quads.size()-1,quads);
+            // sortThread = std::thread(sApp::MTquickSort,0,quads.size()-1,std::ref(quads));
+            // sortThread.detach();
             std::thread sortThread(MTbubbleSort, std::ref(quads));
             sortThread.detach();
 
-            placeQuads();
+            
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_T) == GLFW_PRESS){ //TODO reset
 
@@ -97,6 +96,7 @@ class sApp{
 
 
     void placeQuads(){
+     
         for(int i = 0; i < quads.size(); ++i){
               float offsetX = ((10.f/(float)quadAmount)*(i*0.1)) -5.f;
       
@@ -106,8 +106,10 @@ class sApp{
       
               quads[i].setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
       
-              std::cout << quads[i].value << " ";
+              //std::cout << quads[i].value << " ";
             }
+
+      
     }
 
 
@@ -134,7 +136,7 @@ public:
     std::thread sortThread;
 
 
-
+//SORTING ALGORITHMS NEED TO MOVE
 
     static void swap(sQuad* l, sQuad* r){
   
@@ -228,13 +230,12 @@ public:
             for(int i = j; i <vec.size(); i++){ //for every element in the array, iterate through it again after the current index in the first iteration
               vec[i].changeQuadColor(QUAD_GREEN);
               if(vec[i] < vec[j]){          //if the next value is smaller then the previous, swap it
-                vec[i].changeQuadColor(QUAD_BLUE);
-                vec[j].changeQuadColor(QUAD_BLUE);
+                
                 sQuad temp = vec[i];
                 vec[i] = vec[j];
                 vec[j] = temp;
-                
-                      
+                vec[j].changeQuadColor(QUAD_RED);
+                vec[i].changeQuadColor(QUAD_RED);
               }
               
               usleep(100);
@@ -242,6 +243,8 @@ public:
             }
           }
           for(int i = 0; i < vec.size()-2; ++i){
+            vec[i].changeQuadColor(QUAD_BLUE);
+            usleep(10000);
             if(vec[i+1] < vec[i]){
               break;
             }
