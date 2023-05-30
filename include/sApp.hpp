@@ -62,29 +62,17 @@ class sApp{
             
         }
         if(glfwGetKey(window.handle(),GLFW_KEY_T) == GLFW_PRESS){ //TODO reset
-
-            
+            float offsetX = 1.f/(float)quadAmount;
             for(int i = 0; i < quadAmount; ++i){
-
-               //create quads
-               sQuad quad{quadShaderProgram};
-           
-               //quad.scaleX = 5.f/quadAmount;
-               //attempt at dividing the screen by the amount of quads being rendered TODO::
-               quad.scaleX = 10.f/quadAmount;
-               float offsetX = ((0.1f/(float)quadAmount)*i) -5.f;
-               
-               //puts all of the quads at an equal level at the bottom of the screen
-               float offsetY = -5.f;
-               offsetY += (quad.scaleY/2);
-               
-               //sets the quads in place in relation to the offsets calculated
-               //TODO:: calculate proper offsetX
-               quad.setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
-               
-               quads[i] = quad;
+                //create quads
+                sQuad quad{quadShaderProgram};
+                //attempt at dividing the screen by the amount of quads being rendered TODO::
+                quad.scaleX = 1.f/(float)quadAmount;
+                offsetX = offsetX + 1.f/(float)quadAmount;
+                quad.setXYZ(offsetX, 0 ,0);
+                
+                quads[i] = quad;
             }
-
           placeQuads();
         }
     }
@@ -97,20 +85,12 @@ class sApp{
 
 
     void placeQuads(){
-     
-        for(int i = 0; i < quads.size(); ++i){
-              float offsetX = ((10.f/(float)quadAmount)*(i*0.1)) -5.5f;
-      
-              //puts all of the quads at an equal level at the bottom of the screen
-              float offsetY = -5.f;
-              offsetY += (quads[i].scaleY/2);
-      
-              quads[i].setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
-      
-              //std::cout << quads[i].value << " ";
-            }
+        float offsetX = 2.f/(float)quadAmount;
 
-      
+        for(int i = 0; i < quadAmount; ++i){   
+            offsetX = offsetX + 1.f/(float)quadAmount;
+            quads[i].setXYZ(offsetX, 0 ,0);
+        }
     }
 
 
@@ -130,7 +110,7 @@ public:
     int numRandomQuads = 20;
     int maxValueQuad = 1000;
     std::vector<sQuad> quads;
-    int quadAmount = 100;
+    int quadAmount = 500;
     GLuint quadShaderProgram;
 
 

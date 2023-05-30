@@ -23,6 +23,6 @@ void main(){
     aPosOut = aPos;
     time = iTime;
     
-    gl_Position = model * projection * location * scale * vec4(aPos.x,aPos.y,aPos.z,1.0);
+    gl_Position = model *  location * projection *scale * vec4(aPos.x,aPos.y,aPos.z,1.0);
     color = colorIN;
 }

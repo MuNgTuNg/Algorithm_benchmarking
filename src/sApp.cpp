@@ -95,31 +95,26 @@ void sApp::run()
 
   //»»» CREATE SCENE «««
   //create quads
-  
+  float offsetX = 2.f/(float)quadAmount;
   for(int i = 0; i < quadAmount; ++i){
 
     //create quads
     sQuad quad{quadShaderProgram};
 
-    //quad.scaleX = 5.f/quadAmount;
+      
     //attempt at dividing the screen by the amount of quads being rendered TODO::
-    quad.scaleX = 10.f/quadAmount;
-    float offsetX = ((0.1f/(float)quadAmount)*i) -5.f;
+    quad.scaleX = 2.f/(float)quadAmount;
     
-    //puts all of the quads at an equal level at the bottom of the screen
-    float offsetY = -5.f;
-    offsetY += (quad.scaleY/2);
     
-    //sets the quads in place in relation to the offsets calculated
-    //TODO:: calculate proper offsetX
-    quad.setXYZ((i*0.1f)+ offsetX, offsetY ,-10.f);
+    //offsetX = offsetX + 2.f/(float)quadAmount;
+    
+    
+    quad.setXYZ(offsetX, 0 ,0);
     
     quads.push_back(quad);
   }
 
 
-  
-  
 
 
 

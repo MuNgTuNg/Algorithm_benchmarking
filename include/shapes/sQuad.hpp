@@ -24,10 +24,10 @@ class sQuad{
 
     std::vector<GLfloat> vertices = 
     { //     COORDINATES     /        COLORS      /   TexCoord  //
-      -.5f, -.5f,  0.f,  .9f,1.f,2.f,
-      -.5f, .5f,   0.f,  0.f,.5f,2.f,
-      .5f,  .5f,    0.f,  2.f,1.f,.5f,
-      .5f,  -.5f,   0.f,  2.f,.5f,2.f
+      -100.f, -100.f,  0.f,  .9f,1.f,2.f,
+      -100.f, 100.f,   0.f,  0.f,.5f,2.f,
+      100.f,  100.f,    0.f,  2.f,1.f,.5f,
+      100.f,  -100.f,   0.f,  2.f,.5f,2.f
     };
    
     std::vector<GLuint> indices = 
@@ -67,15 +67,15 @@ class sQuad{
      glUniformMatrix4fv(viewUniform,1,GL_FALSE,glm::value_ptr(view));
      
      //CAMERA UNIFORMS
-     glm::mat4 projection{1.f};
-     projection = glm::perspective(45.f,(float)(WINDOW_WIDTH/WINDOW_HEIGHT),0.1f,1000.f);
-     int projUniform = glGetUniformLocation(shaderProgram,"projection");
-     glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
+     //glm::mat4 projection{1.f};
+     //projection = glm::perspective(45.f,(float)(WINDOW_WIDTH/WINDOW_HEIGHT),0.1f,1000.f);
+     //int projUniform = glGetUniformLocation(shaderProgram,"projection");
+     //glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
   
-    //  glm::mat4 projection{1.f};
-    //  projection = glm::ortho(0.f,1920.f,1080.f,0.f);
-    //  int projUniform = glGetUniformLocation(shaderProgram,"projection");
-    //  glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
+      glm::mat4 projection{1.f};
+      projection = glm::ortho(0.f,1920.f,0.f,1080.f,-1.f,1.f);
+      int projUniform = glGetUniformLocation(shaderProgram,"projection");
+      glUniformMatrix4fv(projUniform,1,GL_FALSE,glm::value_ptr(projection));
 
      int colUniform = glGetUniformLocation(shaderProgram,"colorIN");
      glUniform3fv(colUniform,1,glm::value_ptr(color)); 
